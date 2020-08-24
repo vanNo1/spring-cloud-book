@@ -13,7 +13,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/book-eureka/pom.xml" />
         <option value="$PROJECT_DIR$/book-gateway/pom.xml" />
-        <option value="$PROJECT_DIR$/book-user/book-book-provider/pom.xml" />
+        <option value="$PROJECT_DIR$/book-user/book-user-provider/pom.xml" />
+        <option value="$PROJECT_DIR$/book-book/book-book-provider/pom.xml" />
       </list>
     </option>
   </component>

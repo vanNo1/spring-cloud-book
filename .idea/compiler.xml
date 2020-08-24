@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="book-common" />
+        <module name="book-user-provider" />
         <module name="book-book-provider" />
         <module name="book-core" />
         <module name="book-eureka" />
@@ -29,6 +30,7 @@
       <module name="book-gateway" options="-parameters" />
       <module name="book-user" options="-parameters" />
       <module name="book-user-api" options="-parameters" />
+      <module name="book-user-provider" options="-parameters" />
     </option>
   </component>
 </project>
