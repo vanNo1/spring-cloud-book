@@ -1,10 +1,18 @@
-package utils;
+package van.bookbookprovider.convert;
 
-import com.van.book3.common.Const;
+import base.Const;
 import org.springframework.stereotype.Component;
+import van.bookbookprovider.entity.BookList;
+import van.bookbookprovider.entity.Introduction;
+import van.bookbookprovider.entity.Review;
+import van.bookbookprovider.entity.Shelf;
+import van.bookbookprovider.service.serviceImpl.*;
+import van.bookbookprovider.vo.*;
+import van.bookbookprovider.entity.Book;
+import van.bookuserprovider.entity.User;
+import van.bookuserprovider.service.serviceImpl.UserServiceImpl;
 
 import javax.annotation.Resource;
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +35,13 @@ public class AssembleVOUtil {
     @Resource
     private ReviewServiceImpl reviewService;
 
-    public BookListVO assembleBookListVO(List<Book> books, BookList bookList){
-        BookListVO bookListVO=new BookListVO();
+    public BookListVO assembleBookListVO(List<Book> books, BookList bookList) {
+        BookListVO bookListVO = new BookListVO();
         bookListVO.setOpenId(bookList.getOpenId());
         bookListVO.setBookList(bookList.getBookList());
         bookListVO.setTitle(bookList.getTitle());
         bookListVO.setLikes(bookList.getLikes());
-        List<BookSimplyVO>bookSimplyVOList=assembleBookSimplyVOList(books);
+        List<BookSimplyVO> bookSimplyVOList = assembleBookSimplyVOList(books);
         bookListVO.setBooks(bookSimplyVOList);
         return bookListVO;
     }
@@ -46,7 +54,7 @@ public class AssembleVOUtil {
         bookVO.setAuthor(book.getAuthor());
         bookVO.setCategory(book.getCategory());
         bookVO.setCategoryText(book.getCategoryText());
-        bookVO.setCover(Const.DOMAIN_IMG+book.getCover());
+        bookVO.setCover(Const.DOMAIN_IMG + book.getCover());
         bookVO.setFileName(book.getFileName());
         bookVO.setId(book.getId());
         bookVO.setLanguage(book.getLanguage());
@@ -54,13 +62,11 @@ public class AssembleVOUtil {
         bookVO.setRootFile(book.getRootFile());
         bookVO.setOpf(Const.DOMAIN + book.getUnzipPath() + book.getFileName() + "/" + book.getRootFile());
         bookVO.setTitle(book.getTitle());
-        bookVO.setRank(rankService.rank(openId,book.getFileName()));//current user's rank
+        bookVO.setRank(rankService.rank(openId, book.getFileName()));//current user's rank
         bookVO.setRankAvg(rankService.rankAvg(book.getFileName()));
         bookVO.setRankNum(rankService.rankNum(book.getFileName()));
         bookVO.setReaderNum(shelfService.findPeopleNum(book.getFileName()));
         //assemble readerVO
-
-
 
 
         List<Shelf> shelfList = shelfService.getAllShelf(book.getFileName());
@@ -92,7 +98,7 @@ public class AssembleVOUtil {
         bookSimplyVO.setBookId(book.getFileName());
         bookSimplyVO.setCategory(book.getCategory());
         bookSimplyVO.setCategoryText(book.getCategoryText());
-        bookSimplyVO.setCover(Const.DOMAIN_IMG+book.getCover());
+        bookSimplyVO.setCover(Const.DOMAIN_IMG + book.getCover());
         bookSimplyVO.setFileName(book.getFileName());
         bookSimplyVO.setId(book.getId());
         bookSimplyVO.setLanguage(book.getLanguage());
@@ -101,34 +107,35 @@ public class AssembleVOUtil {
         bookSimplyVO.setTitle(book.getTitle());
         return bookSimplyVO;
     }
-    public List<BookSimplyVO>assembleBookSimplyVOList(List<Book>books){
-        List<BookSimplyVO> bookSimplyVOList=new ArrayList<>();
+
+    public List<BookSimplyVO> assembleBookSimplyVOList(List<Book> books) {
+        List<BookSimplyVO> bookSimplyVOList = new ArrayList<>();
         for (Book book : books) {
             bookSimplyVOList.add(AssembleVOUtil.assembleBookSimplyVO(book));
         }
         return bookSimplyVOList;
     }
 
-    public BookVO2 assembleBookVO2(Book book){
-        BookVO2 bookVO2=new BookVO2();
+    public BookVO2 assembleBookVO2(Book book) {
+        BookVO2 bookVO2 = new BookVO2();
 
         //hotBook:how many people have have read this book before(hot_book)
-        int readerCount=hotBookService.readerCount(book.getFileName());
+        int readerCount = hotBookService.readerCount(book.getFileName());
         bookVO2.setReaderNum(readerCount);
         //rank
         bookVO2.setRankNum(rankService.rankNum(book.getFileName()));
         bookVO2.setRankAvg(rankService.rankAvg(book.getFileName()));
         //introduction
-        Introduction introduction= introductionService.getIntroduction(book.getFileName()).getData();
+        Introduction introduction = introductionService.getIntroduction(book.getFileName()).getData();
         bookVO2.setContent(introduction.getContent());
         bookVO2.setAuthorIntroduction(introduction.getAuthor());
         //review
-        List<Review>reviews=reviewService.listReview(book.getFileName(),6,1).getData();
+        List<Review> reviews = reviewService.listReview(book.getFileName(), 6, 1).getData();
         bookVO2.setReviewVOS(assembleReviewVO(reviews));
         //book
         bookVO2.setId(book.getId());
         bookVO2.setFileName(book.getFileName());
-        bookVO2.setCover(Const.DOMAIN_IMG+book.getCover());
+        bookVO2.setCover(Const.DOMAIN_IMG + book.getCover());
         bookVO2.setTitle(book.getTitle());
         bookVO2.setAuthor(book.getAuthor());
         bookVO2.setPublisher(book.getPublisher());
@@ -140,10 +147,11 @@ public class AssembleVOUtil {
         return bookVO2;
 
     }
-    public List<ReviewVO> assembleReviewVO(List<Review> reviews){
-        List<ReviewVO> reviewVOS=new ArrayList<>();
+
+    public List<ReviewVO> assembleReviewVO(List<Review> reviews) {
+        List<ReviewVO> reviewVOS = new ArrayList<>();
         for (Review review : reviews) {
-            ReviewVO reviewVO=new ReviewVO();
+            ReviewVO reviewVO = new ReviewVO();
             reviewVO.setAvatarUrl(review.getAvatarUrl());
             reviewVO.setFileName(review.getFileName());
             reviewVO.setRank(review.getRank());

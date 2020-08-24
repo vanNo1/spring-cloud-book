@@ -11,5 +11,11 @@
 
     <artifactId>book-book-api</artifactId>
 
-
+<dependencies>
+    <dependency>
+        <groupId>van</groupId>
+        <artifactId>book-book-provider</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+</dependencies>
 </project>
