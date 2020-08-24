@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="book-common" />
+        <module name="book-book-provider" />
+        <module name="book-core" />
+        <module name="book-eureka" />
+        <module name="book-gateway" />
+        <module name="book-user" />
+        <module name="book-user-api" />
+        <module name="book-book" />
+        <module name="book-book-api" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="book-book" options="-parameters" />
+      <module name="book-book-api" options="-parameters" />
+      <module name="book-book-provider" options="-parameters" />
+      <module name="book-common" options="-parameters" />
+      <module name="book-core" options="-parameters" />
+      <module name="book-eureka" options="-parameters" />
+      <module name="book-gateway" options="-parameters" />
+      <module name="book-user" options="-parameters" />
+      <module name="book-user-api" options="-parameters" />
+    </option>
+  </component>
+</project>
