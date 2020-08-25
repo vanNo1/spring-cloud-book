@@ -1,6 +1,7 @@
 package van.bookbookprovider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import van.bookbookprovider.entity.Contents;
 
 /**
  * @author Van
