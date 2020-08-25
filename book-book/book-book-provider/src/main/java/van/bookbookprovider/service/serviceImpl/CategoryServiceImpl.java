@@ -2,6 +2,7 @@ package van.bookbookprovider.service.serviceImpl;
 
 import base.Const;
 import base.ServerResponse;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
     private BookMapper bookMapper;
     @Resource
     private CategoryMapper categoryMapper;
+    private LocalCacheUtil cacheUtil;
 
     @PostConstruct
     public void warmUpCategoryTree() {
-        LocalCacheUtil cacheUtil = new LocalCacheUtil();
+        cacheUtil = new LocalCacheUtil();
         Map map = new HashMap();
         List<Category> categoryList = categoryMapper.selectByMap(map);
         List<CategoryVO> categoryVOList = new ArrayList<>();
@@ -61,6 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Book> bookList = bookMapper.selectByMap(map);
         return bookList.size();
     }
+
 
     //select all category
     public ServerResponse<List<CategoryVO>> list() {
@@ -91,5 +94,19 @@ public class CategoryServiceImpl implements CategoryService {
         return ServerResponse.success("查询成功", categoryVOList);
     }
 
+    @Override
+    public void update(Category category) {
+        categoryMapper.updateById(category);
+        cacheUtil.delete(Const.CACHE_CATEGORY);
+        RedisPoolUtil.del(Const.CACHE_CATEGORY);
+    }
 
+    @Override
+    public void delete(Integer categoryId) {
+        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("category", categoryId);
+        categoryMapper.delete(queryWrapper);
+        cacheUtil.delete(Const.CACHE_CATEGORY);
+        RedisPoolUtil.del(Const.CACHE_CATEGORY);
+    }
 }

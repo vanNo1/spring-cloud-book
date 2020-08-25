@@ -1,11 +1,11 @@
 package utils;
 
-import base.Const;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
-
+@Component
 public class LocalCacheUtil {
     private Cache<String, Object> localCache;
 
