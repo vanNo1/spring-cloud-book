@@ -1,6 +1,7 @@
 package van.bookbookprovider.controller;
 
 
+import api.banner.BannerAPI;
 import base.ServerResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +15,12 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/banner")
-public class BannerController {
+public class BannerController implements BannerAPI {
     @Resource
     private BannerServiceImpl bannerService;
-    @RequestMapping("/list")
-    public ServerResponse list(){
+
+    @Override
+    public ServerResponse list() {
         return bannerService.generateBanner();
     }
 }

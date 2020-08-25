@@ -1,6 +1,7 @@
 package van.bookbookprovider.controller;
 
 
+import api.category.CategoryAPI;
 import base.ServerResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +15,11 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/category")
-public class CategoryController {
+public class CategoryController implements CategoryAPI {
     @Resource
     private CategoryServiceImpl categoryService;
 
-    @RequestMapping("/list.do")
+    @Override
     public ServerResponse list() {
         return categoryService.list();
     }

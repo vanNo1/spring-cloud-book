@@ -12,6 +12,11 @@
     <artifactId>book-common</artifactId>
 <dependencies>
     <dependency>
+        <groupId>com.github.ben-manes.caffeine</groupId>
+        <artifactId>caffeine</artifactId>
+        <version>2.7.0</version>
+    </dependency>
+    <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
     </dependency>

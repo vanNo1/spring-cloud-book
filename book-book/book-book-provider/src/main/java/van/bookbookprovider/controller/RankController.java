@@ -1,5 +1,6 @@
 package van.bookbookprovider.controller;
 
+import api.rank.RankAPI;
 import base.Const;
 import base.ServerResponse;
 import org.springframework.validation.annotation.Validated;
@@ -19,14 +20,14 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RestController
 @RequestMapping("/rank")
-public class RankController {
+public class RankController implements RankAPI {
     @Resource
     private RankServiceImpl rankService;
 
-    @RequestMapping("/save")
+    @Override
     public ServerResponse save(@NotEmpty String fileName, @NotNull Integer rank, HttpSession session) {
         //need login
-        String openId=(String) session.getAttribute(Const.CURRENT_USER);
-        return rankService.save(fileName, rank,openId);
+        String openId = (String) session.getAttribute(Const.CURRENT_USER);
+        return rankService.save(fileName, rank, openId);
     }
 }

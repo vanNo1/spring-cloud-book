@@ -1,9 +1,9 @@
 package van.bookbookprovider.controller;
 
 
+import api.book.BookAPI;
 import base.ServerResponse;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import utils.LoginUtil;
@@ -22,7 +22,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @RestController
 @Validated
-public class BookController {
+public class BookController implements BookAPI {
     @Resource
     private IntroductionServiceImpl introductionService;
     @Resource
@@ -31,24 +31,30 @@ public class BookController {
     private BookServiceImpl bookService;
     @Resource
     private HotSearchServiceImpl hotSearchService;
-    @RequestMapping("/introduction")
-    public ServerResponse introduction(@NotEmpty String fileName){
+
+    @Override
+    public ServerResponse introduction(@NotEmpty String fileName) {
         return introductionService.getIntroduction(fileName);
     }
 
-    @RequestMapping("/detail.do")
+    @Override
+
     public ServerResponse detail(String fileName, String openId) {
 
         return bookService.getDetail(openId, fileName);
     }
-    @RequestMapping("/v2/detail.do")
-    public ServerResponse detail2(@NotEmpty String fileName){
+
+    @Override
+
+    public ServerResponse detail2(@NotEmpty String fileName) {
         return bookService.selectBookDetailV2(fileName);
     }
 
+    @Override
+
     //搜索
-    @RequestMapping("/search")
-    public ServerResponse search(HttpSession session, @NotEmpty String keyword, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "20") int pageSize) {
+    public ServerResponse search(HttpSession session, @NotEmpty String keyword, @RequestParam(defaultValue = "1") int page,
+                                 @RequestParam(defaultValue = "20") int pageSize) {
         //is user is login then insert keyword to databse;
         if (LoginUtil.isLogin(session)) {
             hotSearchService.insert(keyword, LoginUtil.getOpenId(session));
@@ -56,15 +62,18 @@ public class BookController {
         return bookService.search(keyword, page, pageSize);
     }
 
-    @RequestMapping("/search-list")
-    public ServerResponse searchList(String publisher, String author, String category, Integer categoryId, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "20") int pageSize) {
+    @Override
+
+    public ServerResponse searchList(String publisher, String author, String category, Integer categoryId,
+                                     @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "20") int pageSize) {
         if (publisher == null && author == null && category == null && categoryId == null) {
             return ServerResponse.error("参数有误");
         }
-        return bookService.searchList(publisher, category, categoryId, author,page,pageSize);
+        return bookService.searchList(publisher, category, categoryId, author, page, pageSize);
     }
 
-    @RequestMapping("/hot-search")
+    @Override
+
     public ServerResponse hotSearch() {
 
         return hotBookService.hotSearch();

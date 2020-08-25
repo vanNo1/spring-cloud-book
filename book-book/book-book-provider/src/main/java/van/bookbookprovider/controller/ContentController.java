@@ -1,11 +1,11 @@
 package van.bookbookprovider.controller;
 
 
+import api.content.ContentAPI;
 import base.CodeMsg;
 import base.ServerResponse;
 import exception.GlobalException;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import utils.LoginUtil;
 import van.bookbookprovider.entity.Book;
@@ -23,7 +23,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @RestController
 @Validated
-public class ContentController {
+public class ContentController implements ContentAPI {
     @Resource
     private ContentServiceImpl contentService;
     @Resource
@@ -31,11 +31,11 @@ public class ContentController {
     @Resource
     private HotBookServiceImpl hotBookService;
 
-    @RequestMapping("/contents")
+    @Override
     public ServerResponse content(@NotEmpty String fileName, HttpSession session) {
         if (LoginUtil.isLogin(session)) {
             Book book = bookService.selectBookByFileName(fileName);
-            if (book==null){
+            if (book == null) {
                 throw new GlobalException(CodeMsg.BOOK_NOT_EXIST);
             }
             hotBookService.insert(LoginUtil.getOpenId(session), book.getTitle(), book.getFileName());
